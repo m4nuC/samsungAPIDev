@@ -1,0 +1,3 @@
+[submodule "www"]
+	path = www
+	url = ssh://sam@repaircms.com/mnt/samsung/samsung.git
