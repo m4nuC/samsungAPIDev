@@ -1,5 +1,5 @@
 group { 'puppet': ensure => present }
-Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
+Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/', '/usr/local/bin/'] }
 File { owner => 0, group => 0, mode => 0644 }
 
 class {'apt':
@@ -138,6 +138,8 @@ composer::run { 'xhprof-composer-run':
   ]
 }
 
+
+
 nginx::resource::vhost { 'xhprof':
   ensure      => present,
   server_name => ['xhprof'],
@@ -158,6 +160,15 @@ class { 'xdebug':
 
 class { 'composer':
   require => Package['php5-fpm', 'curl'],
+}
+
+exec { 'PHPUnitInstall':
+  command => "composer global require 'phpunit/phpunit=3.7.*'",
+  user => 'root',
+  timeout => 0,
+  require => [
+    Class['composer']
+  ]
 }
 
 puphpet::ini { 'xdebug':
